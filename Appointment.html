@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Appointment</title>
+</head>
+<body>
+    <header >
+        <h1>Booking Appointment</h1>
+    </header>
+
+    <section class="container">
+        <form action="Appointment.html" id="my-form" method="post">
+            <div>
+                <label for="name">Name</label><br>
+                <input type="text" id="name" name="NAME"><br>
+            </div>
+            <div>
+                <label for="ph">Phone</label><br>
+                <input type="tel" name="ph" id="ph"><br>
+            </div>
+            <div>
+                <label for="mail">E-mail</label><br>
+                <input type="email" name="mail" id="MAIL"><br>
+            </div>
+            <br>
+            <input type="submit" class="btn" value="submit">
+        </form>
+        <ul id="persons">
+        </ul>
+    </section>
+    <script>
+
+
+/*
+        const inputForm=document.querySelector('#my-form')
+        const inputName=document.querySelector('#name')
+        const inputMail=document.querySelector('#mail')
+        let lst=document.querySelector('#persons')
+        inputForm.addEventListener('submit',onSubmit)
+
+        function onSubmit(e){
+            e.preventDefault()
+            const NAME=inputName.value
+            const MAIL=inputMail.value
+            const li=document.createElement('li')
+            li.appendChild(document.createTextNode(`${inputName.value}-${inputMail.value}`))
+            lst.appendChild(li)
+
+            const obj={
+                NAME,
+                MAIL
+            }
+            //SENDING DATA TO THE CLOUD SEVER USING AXIOS
+            axios.post('https://crudcrud.com/api/590c2ddf9997456588acaca5c098cfcb/AppointmentData',obj)
+            .then(res=>console.log(res.data))
+
+
+
+
+
+            //Saving it to Local Storage
+
+            // localStorage.setItem(inputName.value,inputMail.value)
+            
+
+            //Clear Feilds
+            inputName.value=''
+            inputMail.value=''
+        }
+
+        */
+
+
+        // const btn=document.querySelector('.btn')
+        // btn.addEventListener('click',(e)=>{
+        //     e.preventDefault()
+        // })
+        // const Name=document.getElementById('name').value
+        // const Mail= document.getElementById('mail')
+        // const lst=document.getElementById('persons')
+        // console.log(Name)
+
+
+
+        // function displayData(e){
+        //     e.preventDefault()
+        //     const Name=document.getElementById('name').value
+        //     const Mail=document.getElementById('mail').value
+        //     const List=document.getElementById('unordList')
+        //     List.textContent(`${Name}-${Mail}`)
+        //     localStorage.setItem(Name,Mail)
+        // }
+
+
+
+
+
+
+
+
+        //YASH KIND OF WRITING SCRIPT
+        window.addEventListener('submit',printData)
+        function printData(e){
+            e.preventDefault()
+            const userName=e.target.NAME.value
+            const userMail=e.target.MAIL.value
+
+            //CREATE OBJECT 
+            const postObj={
+                userName,
+                userMail
+            }
+
+            //AXIOS REQUEST
+            axios.post('https://crudcrud.com/api/28095952bfb447abb4fde133870d979b/Appointments',postObj)
+            .then(res=>{printOnScreen(res.data)})
+            .catch()
+        }
+
+
+        //WHEN SCREEN LOADS
+        document.addEventListener('DOMContentLoaded',()=>{
+            axios.get('https://crudcrud.com/api/28095952bfb447abb4fde133870d979b/Appointments')
+            .then(res=>{
+                res.data.forEach(element => {
+                    printOnScreen(element)
+                });
+                });
+            })
+
+
+        //PRINT DATA ON SCREEN
+        function printOnScreen(data){
+            // const data=JSON.stringify(res.data)
+            // document.body.innerHTML=data
+            ulLst=document.getElementById('persons')
+            document.getElementById('name').value=''
+            document.getElementById('MAIL').value=''
+
+
+            const childEle=`<li id=${data._id}> ${data.userName}--${data.userMail}
+                              <button onclick=deleteUser('${data._id}')>DELETE</button>
+                              <button onclick=editUser('${data._id}','${data.userName}','${data.userMail}')>EDIT</button> `
+            ulLst.innerHTML=ulLst.innerHTML+childEle
+
+            // const li=document.createElement('li')
+            // li.appendChild(document.createTextNode(`${data.userName}--${data.userMail}`))
+            // const btn=document.createElement('button')
+            // btn.id=`${data.id}`
+            // btn.onclick(deleteUser(id))
+            // btn.innerText='DELETE'
+
+            // const b_tn=document.createElement('button')
+            // b_tn.innerText='EDIT'
+
+            // li.appendChild(btn)
+            // li.appendChild(b_tn)
+            // ulLst.appendChild(li)
+
+        }
+
+        function deleteUser(id){
+            const deletedLi=document.getElementById(id)
+            ulLst.removeChild(deletedLi)
+            axios.delete(`https://crudcrud.com/api/28095952bfb447abb4fde133870d979b/Appointments/${id}`)
+            .then(console.log(`User with ${id} succesfully deleted`))
+        }
+
+
+
+        //////////POST REQUEST////////  
+        function editUser(id,n,m){
+            document.getElementById('name').value=n
+            document.getElementById('MAIL').value=m
+            deleteUser(id)
+        }
+
+
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
