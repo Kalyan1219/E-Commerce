@@ -3,6 +3,7 @@ const path=require('path')
 const user=require('../models/user')
 const { create } = require('domain')
 const { useAutocomplete } = require('@mui/material')
+const bcrypt=require('bcrypt')
 
 exports.getSignUp=(req,res)=>{
     res.sendFile(path.join(__dirname,'../','views','SignUp.html'),(err)=>{console.log(err)})
@@ -12,18 +13,15 @@ exports.postSignUp=(req,res,next)=>{
     const username=req.body.name
     const mail=req.body.email
     const password=req.body.password
-
-    user.create({
-        username:username,
-        E_mail:mail,
-        password:password
+    const saltRounds=10
+    bcrypt.hash(password,saltRounds,async(err,hash)=>{
+        user.create({
+            username:username,
+            E_mail:mail,
+            password:hash
+        })
     })
-    .then(res=>{
-        console.log(res)
-        res.redirect('/login')
-    }
-    )
-    .catch(err=>console.log(err))
+    res.redirect('/login')
 }
 
 exports.getLogin=(req,res,next)=>{
